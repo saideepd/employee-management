@@ -33,5 +33,17 @@ namespace FullStack.API.Controllers
 
             return Ok(employeeRequest);
         }
+
+        [HttpGet]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> GetEmployee([FromRoute] Guid id)
+        {
+            var employee = await _fullStackDbContext.Employees.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (employee is null)
+                return NotFound();
+
+            return Ok(employee);
+        }
     }
 }
