@@ -65,5 +65,20 @@ namespace FullStack.API.Controllers
 
             return Ok(employee);
         }
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> deleteEmployee([FromRoute] Guid id)
+        {
+            var employee = await _fullStackDbContext.Employees.FindAsync(id);
+
+            if (employee is null)
+                return NotFound();
+
+            _fullStackDbContext.Employees.Remove(employee);
+            await _fullStackDbContext.SaveChangesAsync();
+
+            return Ok(employee);
+        }
     }
 }
