@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Employee } from 'src/app/models/employee.model';
 import { EmployeesService } from 'src/app/services/employees.service';
 
@@ -20,7 +20,8 @@ export class EditEmployeeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private employeeService: EmployeesService
+    private employeeService: EmployeesService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -40,5 +41,17 @@ export class EditEmployeeComponent implements OnInit {
         console.log(error);
       },
     });
+  }
+
+  updateEmployee() {
+    this.employeeService.updateEmployee(this.employeeDetails.id, this.employeeDetails)
+    .subscribe({
+      next: (response) => {
+        this.router.navigate(['employees']);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
   }
 }

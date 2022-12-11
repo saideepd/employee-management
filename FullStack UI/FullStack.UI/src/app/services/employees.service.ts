@@ -5,13 +5,12 @@ import { environment } from '../environments/environment';
 import { Employee } from '../models/employee.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EmployeesService {
-
   baseApiUrl: string = environment.baseApiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAllEmployees(): Observable<Employee[]> {
     return this.http.get<Employee[]>(`${this.baseApiUrl}/api/employees`);
@@ -24,5 +23,9 @@ export class EmployeesService {
 
   getEmployee(id: string): Observable<Employee> {
     return this.http.get<Employee>(`${this.baseApiUrl}/api/employees/${id}`);
+  }
+
+  updateEmployee(id: string, updateEmployeeRequest: Employee): Observable<Employee> {
+    return this.http.put<Employee>(`${this.baseApiUrl}/api/employees/${id}`, updateEmployeeRequest);
   }
 }
